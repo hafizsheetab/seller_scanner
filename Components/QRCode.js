@@ -27,7 +27,7 @@ export default function QRCode() {
         axios.defaults.headers.common['x-auth-accountAddress'] = account
         axios.get(`${urlEndPoint}/api/product/${data}`).then(res => {
             console.log(res.data)
-            setContextStore({...contextStore, product: JSON.parse(res.data), cid: data})
+            setContextStore({...contextStore, product: res.data, cid: data})
             Actions.product()
         }).catch(err => {
             console.log(err)
@@ -48,14 +48,7 @@ export default function QRCode() {
                 onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
                 style={StyleSheet.absoluteFillObject}
             />
-            {scanned && (
-                <Button
-                    containerStyle={styles.buttonContainer}
-                    buttonStyle={styles.button}
-                    title={"Tap to Scan Again"}
-                    onPress={() => setScanned(false)}
-                />
-            )}
+            
         </SafeAreaView>
     );
 }
@@ -64,7 +57,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         marginTop: StatusBar.currentHeight || 0,
-        backgroundColor: "#ba2727",
+        backgroundColor: "#4aa1e8",
     },
     buttonContainer: {
         padding: 5,

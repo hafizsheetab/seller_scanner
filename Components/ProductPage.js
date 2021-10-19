@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
-import { Text, View, StyleSheet, SafeAreaView } from "react-native";
+import { Text, View, StyleSheet, SafeAreaView, ScrollView, } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import axios from "axios";
 import { ContextStore } from "../Context/ContextStore";
@@ -13,7 +13,6 @@ export default function ProductPage() {
     const { contextStore, setContextStore } = useContext(ContextStore);
     const { product, supplyChain, cid, profile, account } = contextStore;
     axios.defaults.headers.common['x-auth-accountAddress'] = account
-    const [imgUri, setImgUri] = useState(null)
     const [state, setState] = useState({
         productStatus: ""
     })
@@ -53,9 +52,8 @@ export default function ProductPage() {
     return (
         <SafeAreaView style={styles.container}>
             <Header
-                backgroundColor={"#911616"}
                 centerComponent={{
-                    text: `Scan QR Code`,
+                    text: `Add or Ship Product`,
                     style: { color: "#fff" },
                 }}
                 rightComponent={{
@@ -66,6 +64,7 @@ export default function ProductPage() {
                     },
                 }}
             />
+            <ScrollView>
             <Image
                 rounded
                 source={{uri: `https://gateway.ipfs.io/ipfs/${product.imgUri}`}}
@@ -100,11 +99,12 @@ export default function ProductPage() {
             />
             <Button
                 disabled = {state.productStatus === "Shipped"}
-                title="Ready To ship"
+                title="Ship This Product"
                 containerStyle={styles.buttonContainer}
                 buttonStyle={styles.button}
                 onPress={onClickShipProduct}
             />
+            </ScrollView>
         </SafeAreaView>
     );
 }
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         marginTop: StatusBar.currentHeight || 0,
-        backgroundColor: "#ba2727",
+        backgroundColor: "#4aa1e8",
     },
     buttonContainer: {
         padding: 5,
